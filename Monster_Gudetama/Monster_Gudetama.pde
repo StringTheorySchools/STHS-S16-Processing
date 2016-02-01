@@ -20,7 +20,7 @@ void draw() { //function runs over and over
   stroke(0);
   strokeWeight(4);
   if (mousePressed == true) {
-    fill(255, 200, 0);
+    fill(255, 0, 0);
     float r2 = random(-2, +2);
     ellipse(w/2, h/2+r2, 200, 200);
     translate(0, 45);
