@@ -1,5 +1,7 @@
 //Drawing Order
 
+int center = 300;
+
 void setup(){ //runs once at startup
   size(600,650);
 }
@@ -23,7 +25,7 @@ void draw(){
   //top circle
   fill(255); //fill white
   noStroke(); //no outline
-  ellipse(300,150, 80,80); //our first circle
+  ellipse(center,150, 80,80); //our first circle
   
   //left circle
   fill(0,255,10,100); //4th variable, transparency
@@ -39,7 +41,7 @@ void draw(){
   //triangle
   strokeWeight(1);
   fill(255,200);
-  triangle(300,440,140,600,460,600);
+  triangle(center,440,140,600,460,600);
   //triangle(x1,y1, x2, y2, x3, y3);
   
   //bottom rectangle
@@ -51,7 +53,7 @@ void draw(){
   //line between two pts
   stroke(238,23,250);
   strokeWeight(3);
-  line(300, 150, 300,600);
+  line(center, 150, center,600);
   
   //arc
   stroke(0);
