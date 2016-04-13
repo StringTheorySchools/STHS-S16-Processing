@@ -1,9 +1,14 @@
-Catcher catcher;
-Drop[] drops;
-Timer timer; //timer object
-int totalDrops = 0;
+// Learning Processing
+// Daniel Shiffman
+// http://www.learningprocessing.com
 
-//**NEW
+// Exercise 10-4: The raindrop catching game
+
+Catcher catcher;    // One catcher object
+Timer timer;        // One timer object
+Drop[] drops;       // An array of drop objects
+int totalDrops = 0; // totalDrops
+
 // A boolean to let us know if the game is over
 boolean gameOver = false;
 
@@ -14,25 +19,20 @@ int lives = 10;     // 10 lives per level (10 raindrops can hit the bottom)
 int levelCounter = 0;
 
 PFont f;
-//**
-
 
 void setup() {
   size(640, 360);
-  catcher = new Catcher(32);
-  drops = new Drop[50];
+  catcher = new Catcher(32); // Create the catcher with a radius of 32
+  drops = new Drop[50];      // Create 50 spots in the array (each level now just has 25 drops)
   timer = new Timer(300);    // Create a timer that goes off every 300 milliseconds
   timer.start();             // Starting the timer
 
-  //**NEW
   f = createFont("Arial", 12, true); // A font to write text on the screen
-  //**
 }
 
 void draw() {
   background(255);
 
-  //**NEW
   // If the game is over
   if (gameOver) {
     textFont(f, 48);
@@ -40,47 +40,29 @@ void draw() {
     fill(0);
     text("GAME OVER", width/2, height/2);
   } else {
-    //**
 
-    //Set Catcher Location
-    catcher.setLocation(mouseX, mouseY);
-    //Display Catcher
-    catcher.display();
+    // Set catcher location
+    catcher.setLocation(mouseX, mouseY); 
+    // Display the catcher
+    catcher.display(); 
 
     // Check the timer
     if (timer.isFinished()) {
       // Deal with raindrops
       // Initialize one drop
-
-
-      //**NEW
-      //MOVE drops[totalDrops] = new Drop();
-
-      // Increment totalDrops
-      totalDrops ++ ;
-      // If we hit the end of the array
-      if (totalDrops >= drops.length) {
-
-        //**NEW
+      if (totalDrops < drops.length) {
         drops[totalDrops] = new Drop();
-        //**
-
-        totalDrops++; // Start over
+        // Increment totalDrops
+        totalDrops++;
       }
       timer.start();
     }
 
-
-
-    for (int i=0; i < totalDrops; i++) {
-      //**NEW
+    // Move and display all drops
+    for (int i = 0; i < totalDrops; i++ ) {
       if (!drops[i].finished) {
-        //**
-
         drops[i].move();
         drops[i].display();
-
-        //**NEW 
         if (drops[i].reachedBottom()) {
           levelCounter++;
           drops[i].finished(); 
@@ -91,43 +73,17 @@ void draw() {
             gameOver = true;
           }
         } 
-        //**
 
-
-        //if statement for intersection, score goes up
+        // Everytime you catch a drop, the score goes up
         if (catcher.intersect(drops[i])) {
-          //**NEW
           drops[i].finished();
           levelCounter++;
           score++;
-          //**
         }
       }
-
-      //// Check the timer
-      //if (timer.isFinished()) {
-      //  // Deal with raindrops
-      //  // Initialize one drop
+    }
 
 
-      //  //**NEW
-      //  //MOVE drops[totalDrops] = new Drop();
-
-      //  // Increment totalDrops
-      //  totalDrops ++ ;
-      //  // If we hit the end of the array
-      //  if (totalDrops >= drops.length) {
-
-      //    //**NEW
-      //    drops[totalDrops] = new Drop();
-      //    //**
-
-      //    totalDrops++; // Start over
-      //  }
-      //  timer.start();
-      //}
-    }//This is amount we'll have naturally
-    //**NEW
     // If all the drops are done, that leve is over!
     if (levelCounter >= drops.length) {
       // Go up a level
@@ -149,4 +105,3 @@ void draw() {
     text("Score: " + score, 300, 40);
   }
 }
-//**
