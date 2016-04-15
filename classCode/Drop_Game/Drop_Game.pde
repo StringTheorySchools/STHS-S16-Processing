@@ -1,41 +1,77 @@
 Catcher catcher;
 Drop[] drops;
-Timer timer; //timer object
+Timer timer;
 int totalDrops = 0;
+
+boolean gameOver = false;
+
+int score = 0;
+int level = 1;
+int lives = 1;
+int levelCounter = 0;
+PFont f;
 
 void setup() {
   size(640, 360);
+
   catcher = new Catcher(32);
-  drops = new Drop[1000];
-  timer = new Timer(300);    // Create a timer that goes off every 300 milliseconds
-  timer.start();             // Starting the timer
+  drops = new Drop[50];
+  timer = new Timer(300);
+  timer.start();
+  noCursor();
+  f = createFont("Arial", 12, true);
 }
+
 
 void draw() {
   background(255);
-  catcher.setLocation(mouseX, mouseY);
-  catcher.display();
 
-  for (int i=0; i < totalDrops; i++) {
-    drops[i].move();
-    drops[i].display();
-    //if statement for intersection
-    if(catcher.intersect(drops[i])){
-     drops[i].caught();
-    }
-  }
+  if (gameOver) {
+  } else {
 
-  // Check the timer
-  if (timer.isFinished()) {
-    // Deal with raindrops
-    // Initialize one drop
-    drops[totalDrops] = new Drop();
-    // Increment totalDrops
-    totalDrops ++ ;
-    // If we hit the end of the array
-    if (totalDrops >= drops.length) {
-      totalDrops = 0; // Start over
+
+    catcher.setLocation(mouseX, mouseY);
+    catcher.display();
+
+    //check the Timer
+    if (timer.isFinished()) {
+      //increment drop below..
+      totalDrops++;//THISISTHEBUG
+      if (totalDrops < drops.length) {
+        drops[totalDrops] = new Drop();
+        totalDrops++;
+      }
+      timer.start();
     }
-    timer.start();
+
+    for (int i = 0; i < totalDrops; i++) {
+      if (!drops[i].finished) {
+        drops[i].move();
+        drops[i].display();
+
+        if (drops[i].reachedBottom()) {
+          levelCounter++;
+          drops[i].finished();
+          lives--;
+          if (lives <= 0) {
+            gameOver = true;
+          }
+        }
+
+        //if statment for intersection
+        if (catcher.intersect(drops[i])) {
+          drops[i].finished();
+          levelCounter++;
+          score++;
+        }
+      }
+    }
+    if (levelCounter >= drops.length) {
+      level++;
+      levelCounter= 0;
+      lives= lives + 1;
+      totalDrops = 0;
+      timer.setTime(constrain(300-level*25, 0, 300));
+    }
   }
 }

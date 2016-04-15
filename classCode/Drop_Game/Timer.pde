@@ -5,6 +5,11 @@ class Timer {
  Timer(int tempTotalTime){
    totalTime = tempTotalTime;
  }
+ 
+ void setTime(int t){
+   totalTime = t;
+ }
+ 
  void start(){ 
    savedTime = millis();
  }
