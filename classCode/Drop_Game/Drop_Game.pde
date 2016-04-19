@@ -7,7 +7,7 @@ boolean gameOver = false;
 
 int score = 0;
 int level = 1;
-int lives = 1;
+int lives = 15;
 int levelCounter = 0;
 PFont f;
 
@@ -25,18 +25,18 @@ void setup() {
 
 void draw() {
   background(255);
-
   if (gameOver) {
+    textFont(f, 48);
+    textAlign(CENTER);
+    fill(255, 0, 0);
+    text("GAME OVER", width/2, height/2);
   } else {
-
-
     catcher.setLocation(mouseX, mouseY);
     catcher.display();
 
     //check the Timer
     if (timer.isFinished()) {
       //increment drop below..
-      totalDrops++;//THISISTHEBUG
       if (totalDrops < drops.length) {
         drops[totalDrops] = new Drop();
         totalDrops++;
@@ -73,5 +73,12 @@ void draw() {
       totalDrops = 0;
       timer.setTime(constrain(300-level*25, 0, 300));
     }
+    textFont(f, 14);
+    fill(0);
+    text("Lives left:" + lives, 10, 20);
+    rect(10, 24, lives*10, 10);
+
+    text("Level:" + level, 300, 20);
+    text("Score:" + score, 300, 40);
   }
 }
